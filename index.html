@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda Tech</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+overflow-x:hidden;
+}
+
+/* HEADER */
+header{
+position:fixed;
+width:100%;
+top:0;
+background:rgba(0,0,0,0.9);
+backdrop-filter:blur(10px);
+padding:15px 50px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:1000;
+}
+
+header h1{
+font-weight:700;
+letter-spacing:2px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+transition:0.3s;
+font-weight:500;
+}
+
+nav a:hover{
+color:gray;
+}
+
+.hero{
+position:relative;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+min-height:100vh;
+background:url('images/banner.png') center center/cover no-repeat;
+}
+
+/* Overlay oscuro SIN blur */
+.hero::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.55); /* Ajusta intensidad aquí */
+}
+
+.hero h2,
+.hero p,
+.hero .btn{
+position:relative;
+z-index:2;
+}
+
+.hero h2{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.hero p{
+color:#ccc;
+max-width:600px;
+}
+
+/* BOTONES */
+.btn{
+background:white;
+color:black;
+padding:12px 25px;
+border-radius:30px;
+margin-top:20px;
+cursor:pointer;
+transition:0.3s;
+border:none;
+font-weight:600;
+}
+
+.btn:hover{
+background:gray;
+color:white;
+}
+
+/* SECTIONS */
+section{
+padding:140px 50px;
+}
+
+/* PRODUCTOS */
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+.card{
+background:#1a1a1a;
+border-radius:15px;
+overflow:hidden;
+transition:0.4s;
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card img{
+width:100%;
+height:250px;
+object-fit:cover;
+}
+
+.card-content{
+padding:20px;
+}
+
+.price{
+color:#ccc;
+margin:10px 0;
+font-weight:bold;
+}
+
+.description{
+font-size:14px;
+color:gray;
+margin-bottom:15px;
+}
+
+/* SOBRE */
+.about{
+max-width:800px;
+margin:auto;
+color:#d1d1d1;
+line-height:1.8;
+font-size:16px;
+}
+
+.about h2{
+text-align:center;
+margin-bottom:25px;
+}
+
+.about p{
+text-align:justify;
+}
+
+/* NUEVO SOBRE NOSOTROS */
+.about-container{
+max-width:1000px;
+margin:auto;
+text-align:center;
+}
+
+.about-container h2{
+margin-bottom:30px;
+font-size:28px;
+}
+
+.about-text{
+color:#cfcfcf;
+line-height:1.8;
+margin-bottom:20px;
+max-width:800px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.about-highlights{
+margin-top:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.highlight{
+background:#1a1a1a;
+padding:25px;
+border-radius:15px;
+transition:0.3s;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.highlight:hover{
+transform:translateY(-8px);
+}
+
+.highlight i{
+font-size:28px;
+margin-bottom:15px;
+color:white;
+}
+
+.highlight h4{
+margin-bottom:10px;
+}
+
+/* CONTACTO */
+.contact form{
+max-width:600px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+input, textarea{
+padding:12px;
+border-radius:8px;
+border:none;
+background:#1c1c1c;
+color:white;
+}
+
+/* NUEVO CONTACTO */
+.contact-container{
+max-width:800px;
+margin:auto;
+text-align:center;
+}
+
+.contact-container h2{
+margin-bottom:15px;
+}
+
+.contact-sub{
+color:#cfcfcf;
+margin-bottom:40px;
+}
+
+.contact-box{
+background:#1a1a1a;
+padding:40px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+}
+
+.contact-box form{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+
+.modal-content{
+background:#1a1a1a;
+padding:30px;
+border-radius:15px;
+width:90%;
+max-width:400px;
+text-align:center;
+animation:fadeIn 0.4s ease;
+box-shadow:0 15px 40px rgba(0,0,0,0.7);
+}
+
+.modal-content input{
+margin:15px 0;
+width:100%;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:scale(0.8);}
+to{opacity:1; transform:scale(1);}
+}
+
+/* BOTONES FLOTANTES */
+.floating{
+position:fixed;
+right:20px;
+bottom:80px; /* Ajustado para quedar más cerca del scroll */
+display:flex;
+flex-direction:column;
+gap:15px; /* misma distancia entre botones */
+z-index:1000;
+}
+
+.floating a{
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+color:white;
+font-size:18px;
+text-decoration:none;
+transition:0.3s;
+box-shadow:0 5px 15px rgba(0,0,0,0.5);
+}
+
+.floating a:hover{
+transform:scale(1.1);
+}
+
+.whatsapp{ background:#25D366; }
+.instagram{ background:#E1306C; }
+
+/* SCROLL TOP */
+#topBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+width:45px;
+height:45px;
+border-radius:50%;
+background:white;
+color:black;
+border:none;
+cursor:pointer;
+display:none;
+font-size:18px;
+box-shadow:0 5px 15px rgba(0,0,0,0.5);
+transition:0.3s;
+}
+
+#topBtn:hover{
+background:gray;
+color:white;
+}
+
+/* FOOTER */
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+color:gray;
+}
+
+@media(max-width:768px){
+header{padding:15px 20px;}
+.hero h2{font-size:32px;}
+}
+
+input:focus, textarea:focus{
+outline:none;
+border:1px solid white;
+}
+
+/* ========================= */
+/* 📱 MEJORAS VISTA MOVIL */
+/* ========================= */
+
+@media (max-width: 768px){
+
+/* HEADER */
+header{
+flex-direction:column;
+padding:15px 20px;
+text-align:center;
+}
+
+header h1{
+margin-bottom:10px;
+font-size:20px;
+}
+
+nav{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+}
+
+nav a{
+margin:0;
+font-size:14px;
+}
+
+/* HERO */
+.hero{
+padding:0 20px;
+min-height:90vh;
+}
+
+.hero h2{
+font-size:28px;
+line-height:1.3;
+}
+
+.hero p{
+font-size:14px;
+padding:0 10px;
+}
+
+/* SECCIONES */
+section{
+padding:90px 20px;
+}
+
+/* PRODUCTOS */
+.product-grid{
+grid-template-columns:1fr;
+gap:25px;
+}
+
+.card img{
+height:200px;
+}
+
+.card-content{
+padding:15px;
+}
+
+.card-content h3{
+font-size:18px;
+}
+
+.price{
+font-size:15px;
+}
+
+.description{
+font-size:13px;
+}
+
+/* SOBRE NOSOTROS */
+.about{
+font-size:14px;
+padding:0 10px;
+}
+
+/* CONTACTO */
+.contact form{
+width:100%;
+}
+
+input, textarea{
+font-size:14px;
+}
+
+/* MODAL */
+.modal-content{
+width:95%;
+padding:20px;
+}
+
+.modal-content h3{
+font-size:18px;
+}
+
+/* BOTONES FLOTANTES */
+.floating{
+right:15px;
+bottom:75px;
+gap:12px;
+}
+
+.floating a{
+width:40px;
+height:40px;
+font-size:16px;
+}
+
+/* SCROLL TOP */
+#topBtn{
+width:40px;
+height:40px;
+bottom:20px;
+right:15px;
+font-size:16px;
+}
+
+/* FOOTER */
+footer{
+font-size:13px;
+padding:25px 15px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Tienda Tech</h1>
+<nav>
+<a href="#inicio">Inicio</a>
+<a href="#productos">Productos</a>
+<a href="#sobre">Sobre Nosotros</a>
+<a href="#contacto">Contáctanos</a>
+</nav>
+</header>
+
+<section class="hero" id="inicio">
+<h2>Innovación que conecta contigo</h2>
+<p>Descubre los mejores productos tecnológicos con estilo, calidad y garantía.</p>
+<button class="btn" onclick="document.getElementById('productos').scrollIntoView()">Ver Productos</button>
+</section>
+
+<section id="productos">
+<h2 style="text-align:center;margin-bottom:50px;">Nuestros Productos</h2>
+<div class="product-grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1510552776732-03e61cf4b144">
+<div class="card-content">
+<h3>Audífonos Gamer RGB</h3>
+<div class="price">$120.000</div>
+<div class="description">Sonido envolvente 7.1 con iluminación RGB y micrófono profesional.</div>
+<button class="btn" onclick="comprarProducto('Audífonos Gamer RGB','$120.000','Sonido envolvente 7.1 con iluminación RGB y micrófono profesional.')">Comprar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
+<div class="card-content">
+<h3>Portátil Ultra Slim</h3>
+<div class="price">$2.500.000</div>
+<div class="description">Procesador i7, 16GB RAM, SSD 512GB.</div>
+<button class="btn" onclick="comprarProducto('Portátil Ultra Slim','$2.500.000','Procesador i7, 16GB RAM, SSD 512GB.')">Comprar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
+<div class="card-content">
+<h3>Smartphone Pro Max</h3>
+<div class="price">$3.200.000</div>
+<div class="description">Cámara 108MP, pantalla AMOLED y batería de larga duración.</div>
+<button class="btn" onclick="comprarProducto('Smartphone Pro Max','$3.200.000','Cámara 108MP, pantalla AMOLED y batería de larga duración.')">Comprar</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="sobre">
+<div class="about-container">
+
+<h2>Más que tecnología, confianza y respaldo</h2>
+
+<p class="about-text">
+En <strong>Tienda Tech</strong> transformamos la forma en que vives la tecnología. 
+No solo vendemos dispositivos, ofrecemos soluciones confiables, modernas y de alto rendimiento diseñadas para acompañarte en tu día a día.
+</p>
+
+<p class="about-text">
+Cada producto es cuidadosamente seleccionado bajo estándares de calidad exigentes, garantizando durabilidad, innovación y excelente desempeño.
+Creemos que comprar tecnología debe ser una experiencia segura, clara y sin complicaciones.
+</p>
+
+<div class="about-highlights">
+<div class="highlight">
+<i class="fas fa-shield-alt"></i>
+<h4>Compra Segura</h4>
+<p>Transparencia y respaldo en cada pedido.</p>
+</div>
+
+<div class="highlight">
+<i class="fas fa-truck"></i>
+<h4>Entrega Confiable</h4>
+<p>Envíos rápidos y seguimiento garantizado.</p>
+</div>
+
+<div class="highlight">
+<i class="fas fa-headset"></i>
+<h4>Soporte Real</h4>
+<p>Acompañamiento antes y después de tu compra.</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="contacto">
+<div class="contact-container">
+
+<h2>Estamos aquí para ayudarte</h2>
+
+<p class="contact-sub">
+¿Tienes dudas o quieres asesoría personalizada?  
+Escríbenos y nuestro equipo te responderá lo antes posible.
+</p>
+
+<div class="contact-box">
+
+<form id="contactForm">
+
+<input type="text" name="nombre" placeholder="Tu Nombre" required>
+
+<input type="tel" name="telefono" placeholder="Tu Teléfono" required pattern="[0-9]{7,15}">
+
+<textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+
+<button type="submit" class="btn">Enviar Mensaje</button>
+
+<p id="formMensaje" style="margin-top:15px;text-align:center;"></p>
+
+</form>
+
+</div>
+
+</div>
+</section>
+
+<!-- MODAL -->
+<div id="modalCompra" class="modal">
+<div class="modal-content">
+<h3>Finalizar Compra</h3>
+<p id="productoSeleccionado"></p>
+<input type="text" id="nombreCliente" placeholder="Ingresa tu nombre">
+<button class="btn" onclick="enviarWhatsApp()">Enviar a WhatsApp</button>
+<button onclick="cerrarModal()" style="background:none;border:none;color:gray;margin-top:10px;">Cancelar</button>
+</div>
+</div>
+
+<!-- BOTONES FLOTANTES -->
+<div class="floating">
+<a href="https://wa.me/573003024889" target="_blank" class="whatsapp">
+<i class="fab fa-whatsapp"></i>
+</a>
+
+<a href="https://instagram.com/tiendatech27" target="_blank" class="instagram">
+<i class="fab fa-instagram"></i>
+</a>
+</div>
+
+<button id="topBtn">
+<i class="fas fa-arrow-up"></i>
+</button>
+
+<footer>
+<p style="margin-bottom:10px;">
+¿Listo para llevar tu tecnología al siguiente nivel? 🔥  
+Compra con confianza, calidad y respaldo garantizado.
+</p>
+
+<p style="font-size:14px; color:#888;">
+© 2026 Tienda Tech - Todos los derechos reservados
+</p>
+
+<p style="margin-top:10px; font-size:13px; color:#666;">
+Desarrollado por: <strong>Jhon Faber Loaiza Vega - Tecnólogo en Análisis y Desarrollo de Software</strong>
+</p>
+</footer>
+
+<script>
+
+let productoActual = {};
+
+function comprarProducto(nombre,precio,descripcion){
+productoActual = {nombre,precio,descripcion};
+document.getElementById("productoSeleccionado").innerHTML =
+`<strong>${nombre}</strong><br>${precio}`;
+document.getElementById("modalCompra").style.display = "flex";
+}
+
+function cerrarModal(){
+document.getElementById("modalCompra").style.display = "none";
+document.getElementById("nombreCliente").value = "";
+}
+
+function enviarWhatsApp(){
+let cliente = document.getElementById("nombreCliente").value;
+
+if(cliente.trim() === ""){
+alert("Por favor escribe tu nombre");
+return;
+}
+
+let mensaje = `Hola, mi nombre es ${cliente}.
+
+Deseo realizar la compra del siguiente producto:
+
+Producto: ${productoActual.nombre}
+Precio: ${productoActual.precio}
+Descripción: ${productoActual.descripcion}
+
+¿Está disponible para entrega inmediata?
+Por favor indíquenme el proceso para finalizar el pedido.
+
+Quedo atento(a). Muchas gracias.`;
+
+let mensajeCodificado = encodeURIComponent(mensaje);
+
+window.open(`https://wa.me/573003024889?text=${mensajeCodificado}`,'_blank');
+
+cerrarModal();
+}
+
+let topBtn = document.getElementById("topBtn");
+
+window.onscroll = function(){
+if(document.documentElement.scrollTop > 300){
+topBtn.style.display = "block";
+}else{
+topBtn.style.display = "none";
+}
+};
+
+topBtn.onclick = function(){
+window.scrollTo({top:0,behavior:'smooth'});
+};
+
+const form = document.getElementById("contactForm");
+const mensajeForm = document.getElementById("formMensaje");
+
+form.addEventListener("submit", async function(e){
+e.preventDefault();
+
+const data = new FormData(form);
+
+try{
+const response = await fetch("https://formspree.io/f/xojnrodo", {
+method: "POST",
+body: data,
+headers: {
+'Accept': 'application/json'
+}
+});
+
+if(response.ok){
+mensajeForm.style.color = "#25D366";
+mensajeForm.innerText = "✔ Mensaje enviado correctamente. Pronto te contactaremos.";
+form.reset();
+}else{
+mensajeForm.style.color = "red";
+mensajeForm.innerText = "Hubo un error al enviar el mensaje.";
+}
+
+}catch(error){
+mensajeForm.style.color = "red";
+mensajeForm.innerText = "Error de conexión. Intenta nuevamente.";
+}
+
+});
+
+</script>
+
+</body>
+</html>
