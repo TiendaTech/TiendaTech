@@ -125,12 +125,16 @@ grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:30px;
 }
 
+/* PRODUCT CARD MEJORADA */
 .card{
 background:#1a1a1a;
 border-radius:15px;
 overflow:hidden;
 transition:0.4s;
 box-shadow:0 10px 25px rgba(0,0,0,0.5);
+display:flex;
+flex-direction:column;
+height:100%;
 }
 
 .card:hover{
@@ -145,18 +149,49 @@ object-fit:cover;
 
 .card-content{
 padding:20px;
+display:flex;
+flex-direction:column;
+flex:1;
 }
 
+/* TITULO PRODUCTO */
+.card-content h3{
+font-size:18px;
+margin-bottom:10px;
+text-align:center;
+text-transform:uppercase; /* 👈 fuerza MAYÚSCULA */
+min-height:48px; /* 👈 alinea todos los títulos */
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* PRECIO */
 .price{
 color:#ccc;
 margin:10px 0;
 font-weight:bold;
+text-align:center;
+min-height:24px; /* 👈 alinea precios */
 }
 
+/* DESCRIPCIÓN */
 .description{
 font-size:14px;
 color:gray;
-margin-bottom:15px;
+margin-bottom:20px;
+text-align:center;
+flex-grow:1; /* 👈 empuja botón hacia abajo */
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:70px; /* 👈 todas iguales */
+}
+
+/* BOTÓN */
+.card-content .btn{
+margin-top:auto; /* 👈 SIEMPRE abajo */
+align-self:center;
 }
 
 /* SOBRE */
@@ -513,6 +548,128 @@ padding:25px 15px;
 
 }
 
+/* VISOR DE IMAGEN */
+.image-viewer{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+z-index:3000;
+animation:fadeIn 0.3s ease;
+}
+
+.image-viewer img{
+max-width:90%;
+max-height:80%;
+border-radius:15px;
+box-shadow:0 20px 60px rgba(0,0,0,0.8);
+}
+
+.close-viewer{
+position:absolute;
+top:30px;
+right:40px;
+font-size:35px;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+.close-viewer:hover{
+color:gray;
+}
+
+/* ICONO CARRITO */
+.cart-icon{
+position:relative;
+cursor:pointer;
+font-size:20px;
+margin-left:25px;
+}
+
+.cart-icon span{
+position:absolute;
+top:-8px;
+right:-10px;
+background:red;
+color:white;
+font-size:12px;
+padding:2px 6px;
+border-radius:50%;
+}
+
+/* MODAL CARRITO */
+.cart-modal{
+display:none;
+position:fixed;
+top:0;
+right:0;
+width:400px;
+height:100%;
+background:#1a1a1a;
+box-shadow:-5px 0 20px rgba(0,0,0,0.5);
+z-index:4000;
+padding:30px;
+overflow-y:auto;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+border-bottom:1px solid #333;
+padding-bottom:10px;
+}
+
+.cart-total{
+margin-top:20px;
+font-weight:bold;
+text-align:center;
+}
+
+.cart-buttons{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.description{
+max-height: 0;
+overflow: hidden;
+transition: all 0.3s ease;
+opacity: 0;
+margin-top: 0;
+}
+
+.description.activa{
+max-height: 500px;
+opacity: 1;
+margin-top: 10px;
+}
+
+.toggle-desc{
+margin-top:10px;
+background:#111;
+color:white;
+border:none;
+padding:8px;
+cursor:pointer;
+border-radius:6px;
+font-size:14px;
+}
+
+section{
+padding:60px 20px; /* espacio vertical uniforme */
+margin:0;
+}
+
 </style>
 </head>
 
@@ -526,45 +683,174 @@ padding:25px 15px;
 <a href="#sobre">Sobre Nosotros</a>
 <a href="#contacto">Contáctanos</a>
 </nav>
+
+<div class="cart-icon" onclick="abrirCarrito()">
+<i class="fas fa-shopping-cart"></i>
+<span id="cartCount">0</span>
+</div>
+
 </header>
 
 <section class="hero" id="inicio">
 <h2>Innovación que conecta contigo</h2>
 <p>Descubre los mejores productos tecnológicos con estilo, calidad y garantía.</p>
-<button class="btn" onclick="document.getElementById('productos').scrollIntoView()">Ver Productos</button>
+<button class="btn" onclick="document.getElementById('productos').scrollIntoView()">
+Ver Productos
+</button>
 </section>
 
 <section id="productos">
-<h2 style="text-align:center;margin-bottom:50px;">Nuestros Productos</h2>
+<h2 style="text-align:center;margin-bottom:50px;">NUESTROS PRODUCTOS</h2>
+
 <div class="product-grid">
 
+<!-- CUBO 35W IPHONE -->
 <div class="card">
-<img src="https://images.unsplash.com/photo-1510552776732-03e61cf4b144">
+<img src="images/CUBO.jpeg">
 <div class="card-content">
-<h3>Audífonos Gamer RGB</h3>
-<div class="price">$120.000</div>
-<div class="description">Sonido envolvente 7.1 con iluminación RGB y micrófono profesional.</div>
-<button class="btn" onclick="comprarProducto('Audífonos Gamer RGB','$120.000','Sonido envolvente 7.1 con iluminación RGB y micrófono profesional.')">Comprar</button>
+<h3>CUBO 35W IPHONE</h3>
+<div class="price">$27.000</div>
+
+<button class="toggle-desc" onclick="toggleDescripcion(this)">
+VER DESCRIPCIÓN
+</button>
+
+<div class="description">
+Cargador de 35W compatible con iPhone. Carga rápida y segura.
+</div>
+
+<button class="btn" onclick="agregarAlCarrito('CUBO 35W IPHONE',27000)">
+Agregar al carrito
+</button>
 </div>
 </div>
 
+<!-- AIRPODS PRO 2 -->
 <div class="card">
-<img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
+<img src="images/AirPods Pro 2.jpeg">
 <div class="card-content">
-<h3>Portátil Ultra Slim</h3>
-<div class="price">$2.500.000</div>
-<div class="description">Procesador i7, 16GB RAM, SSD 512GB.</div>
-<button class="btn" onclick="comprarProducto('Portátil Ultra Slim','$2.500.000','Procesador i7, 16GB RAM, SSD 512GB.')">Comprar</button>
+<h3>AIRPODS PRO 2</h3>
+<div class="price">$50.000</div>
+
+<button class="toggle-desc" onclick="toggleDescripcion(this)">
+VER DESCRIPCIÓN
+</button>
+
+<div class="description">
+Audífonos inalámbricos con excelente calidad de sonido y estuche de carga.
+</div>
+
+<button class="btn" onclick="agregarAlCarrito('AIRPODS PRO 2',50000)">
+Agregar al carrito
+</button>
 </div>
 </div>
 
+<!-- AIRPODS SERIES 4 -->
 <div class="card">
-<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
+<img src="images/AirPods series 4.jpeg">
 <div class="card-content">
-<h3>Smartphone Pro Max</h3>
-<div class="price">$3.200.000</div>
-<div class="description">Cámara 108MP, pantalla AMOLED y batería de larga duración.</div>
-<button class="btn" onclick="comprarProducto('Smartphone Pro Max','$3.200.000','Cámara 108MP, pantalla AMOLED y batería de larga duración.')">Comprar</button>
+<h3>AIRPODS SERIES 4</h3>
+<div class="price">$50.000</div>
+
+<button class="toggle-desc" onclick="toggleDescripcion(this)">
+VER DESCRIPCIÓN
+</button>
+
+<div class="description">
+Audio claro y conexión estable para tu día a día.
+</div>
+
+<button class="btn" onclick="agregarAlCarrito('AIRPODS SERIES 4',50000)">
+Agregar al carrito
+</button>
+</div>
+</div>
+
+<!-- ATURDIDOR -->
+<div class="card">
+<img src="images/ATURDIDOR.jpeg">
+<div class="card-content">
+<h3>ATURDIDOR ELÉCTRICO TIPO 800 (TASER)</h3>
+<div class="price">$25.000</div>
+
+<button class="toggle-desc" onclick="toggleDescripcion(this)">
+VER DESCRIPCIÓN
+</button>
+
+<div class="description">
+• Cuenta con linterna LED integrada.<br>
+• Es recargable e incluye estuche de transporte.<br>
+• Diseño compacto y ligero para seguridad personal.<br>
+• Voltaje de hasta 30000K voltios.
+</div>
+
+<button class="btn" onclick="agregarAlCarrito('ATURDIDOR ELÉCTRICO TIPO 800 (TASER)',25000)">
+Agregar al carrito
+</button>
+</div>
+</div>
+
+<!-- PISTOLA HIDROGEL -->
+<div class="card">
+<img src="images/PISTOLA  HIDROGEL M249.jpeg">
+<div class="card-content">
+<h3>PISTOLA HIDROGEL M249</h3>
+<div class="price">$80.000</div>
+
+<button class="toggle-desc" onclick="toggleDescripcion(this)">
+VER DESCRIPCIÓN
+</button>
+
+<div class="description">
+Pistola de hidrogel M249 ideal para juego recreativo.
+</div>
+
+<button class="btn" onclick="agregarAlCarrito('PISTOLA HIDROGEL M249',80000)">
+Agregar al carrito
+</button>
+</div>
+</div>
+
+<!-- POWER BANK -->
+<div class="card">
+<img src="images/POWER BAI ROCKET.jpeg">
+<div class="card-content">
+<h3>POWER BAI ROCKET P5 5.000MAH MOVISUN</h3>
+<div class="price">$40.000</div>
+
+<button class="toggle-desc" onclick="toggleDescripcion(this)">
+VER DESCRIPCIÓN
+</button>
+
+<div class="description">
+Power bank portátil de 5.000mAh para carga rápida en cualquier lugar.
+</div>
+
+<button class="btn" onclick="agregarAlCarrito('POWER BAI ROCKET P5 5.000MAH MOVISUN',40000)">
+Agregar al carrito
+</button>
+</div>
+</div>
+
+<!-- CARGADOR ORIGINAL APPLE -->
+<div class="card">
+<img src="images/CARGADOR ORIGINAL APPLE 20w TIPO C a C.jpeg">
+<div class="card-content">
+<h3>CARGADOR ORIGINAL APPLE 20W TIPO C A C</h3>
+<div class="price">$95.000</div>
+
+<button class="toggle-desc" onclick="toggleDescripcion(this)">
+VER DESCRIPCIÓN
+</button>
+
+<div class="description">
+Cargador original Apple 20W Tipo C a C. Carga rápida y segura.
+</div>
+
+<button class="btn" onclick="agregarAlCarrito('CARGADOR ORIGINAL APPLE 20W TIPO C A C',95000)">
+Agregar al carrito
+</button>
 </div>
 </div>
 
@@ -651,6 +937,12 @@ Escríbenos y nuestro equipo te responderá lo antes posible.
 </div>
 </div>
 
+<!-- VISOR DE IMAGEN -->
+<div id="imageViewer" class="image-viewer">
+  <span class="close-viewer" onclick="cerrarImagen()">&times;</span>
+  <img id="imagenAmpliada">
+</div>
+
 <!-- BOTONES FLOTANTES -->
 <div class="floating">
 <a href="https://wa.me/573003024889" target="_blank" class="whatsapp">
@@ -683,47 +975,140 @@ Desarrollado por: <strong>Jhon Faber Loaiza Vega - Tecnólogo en Análisis y Des
 
 <script>
 
-let productoActual = {};
+/* ========================= */
+/* 🛒 CARRITO DE COMPRAS */
+/* ========================= */
 
-function comprarProducto(nombre,precio,descripcion){
-productoActual = {nombre,precio,descripcion};
-document.getElementById("productoSeleccionado").innerHTML =
-`<strong>${nombre}</strong><br>${precio}`;
-document.getElementById("modalCompra").style.display = "flex";
+let carrito = [];
+
+function agregarAlCarrito(nombre, precio){
+
+let productoExistente = carrito.find(p => p.nombre === nombre);
+
+if(productoExistente){
+productoExistente.cantidad++;
+}else{
+carrito.push({
+nombre,
+precio,
+cantidad: 1
+});
 }
 
-function cerrarModal(){
-document.getElementById("modalCompra").style.display = "none";
-document.getElementById("nombreCliente").value = "";
+actualizarCarrito();
 }
 
-function enviarWhatsApp(){
-let cliente = document.getElementById("nombreCliente").value;
+function actualizarCarrito(){
 
-if(cliente.trim() === ""){
-alert("Por favor escribe tu nombre");
+const cartItems = document.getElementById("cartItems");
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
+
+cartItems.innerHTML = "";
+let total = 0;
+let totalProductos = 0;
+
+carrito.forEach((producto, index) => {
+
+let subtotal = producto.precio * producto.cantidad;
+total += subtotal;
+totalProductos += producto.cantidad;
+
+cartItems.innerHTML += `
+<div class="cart-item">
+<div style="flex:1;">
+<strong>${producto.nombre}</strong><br>
+Precio: $${producto.precio.toLocaleString()}<br>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:5px;">
+<button onclick="cambiarCantidad(${index}, -1)" 
+style="padding:3px 8px;background:#e74c3c;color:white;border:none;border-radius:4px;cursor:pointer;">
+-
+</button>
+
+<span style="font-weight:bold;">${producto.cantidad}</span>
+
+<button onclick="cambiarCantidad(${index}, 1)" 
+style="padding:3px 8px;background:#25D366;color:white;border:none;border-radius:4px;cursor:pointer;">
++
+</button>
+</div>
+
+Subtotal: $${subtotal.toLocaleString()}
+</div>
+
+<button onclick="eliminarProducto(${index})"
+style="background:none;border:none;color:red;cursor:pointer;font-size:18px;">
+✕
+</button>
+</div>
+`;
+});
+
+cartCount.innerText = totalProductos;
+cartTotal.innerText = total.toLocaleString();
+}
+
+function cambiarCantidad(index, cambio){
+
+carrito[index].cantidad += cambio;
+
+if(carrito[index].cantidad <= 0){
+carrito.splice(index,1);
+}
+
+actualizarCarrito();
+}
+
+function eliminarProducto(index){
+carrito.splice(index,1);
+actualizarCarrito();
+}
+
+function vaciarCarrito(){
+carrito = [];
+actualizarCarrito();
+}
+
+function abrirCarrito(){
+document.getElementById("cartModal").style.display = "block";
+}
+
+function cerrarCarrito(){
+document.getElementById("cartModal").style.display = "none";
+}
+
+function finalizarCompra(){
+
+if(carrito.length === 0){
+alert("Tu carrito está vacío");
 return;
 }
 
-let mensaje = `Hola, mi nombre es ${cliente}.
+let mensaje = "Hola, deseo realizar el siguiente pedido:\n\n";
+let total = 0;
 
-Deseo realizar la compra del siguiente producto:
+carrito.forEach(producto => {
 
-Producto: ${productoActual.nombre}
-Precio: ${productoActual.precio}
-Descripción: ${productoActual.descripcion}
+let subtotal = producto.precio * producto.cantidad;
+total += subtotal;
 
-¿Está disponible para entrega inmediata?
-Por favor indíquenme el proceso para finalizar el pedido.
+mensaje += `• ${producto.nombre}\n`;
+mensaje += `  Cantidad: ${producto.cantidad}\n`;
+mensaje += `  Subtotal: $${subtotal.toLocaleString()}\n\n`;
+});
 
-Quedo atento(a). Muchas gracias.`;
+mensaje += `TOTAL: $${total.toLocaleString()}\n\n`;
+mensaje += "Quedo atento(a) para finalizar la compra.";
 
 let mensajeCodificado = encodeURIComponent(mensaje);
 
-window.open(`https://wa.me/573003024889?text=${mensajeCodificado}`,'_blank');
-
-cerrarModal();
+window.open(`https://wa.me/573003024889?text=${mensajeCodificado}`, '_blank');
 }
+
+/* ========================= */
+/* 🔝 BOTÓN SCROLL */
+/* ========================= */
 
 let topBtn = document.getElementById("topBtn");
 
@@ -739,26 +1124,27 @@ topBtn.onclick = function(){
 window.scrollTo({top:0,behavior:'smooth'});
 };
 
+/* ========================= */
+/* 📩 FORMULARIO CONTACTO */
+/* ========================= */
+
 const form = document.getElementById("contactForm");
 const mensajeForm = document.getElementById("formMensaje");
 
 form.addEventListener("submit", async function(e){
 e.preventDefault();
-
 const data = new FormData(form);
 
 try{
 const response = await fetch("https://formspree.io/f/xojnrodo", {
 method: "POST",
 body: data,
-headers: {
-'Accept': 'application/json'
-}
+headers: {'Accept': 'application/json'}
 });
 
 if(response.ok){
 mensajeForm.style.color = "#25D366";
-mensajeForm.innerText = "✔ Mensaje enviado correctamente. Pronto te contactaremos.";
+mensajeForm.innerText = "✔ Mensaje enviado correctamente.";
 form.reset();
 }else{
 mensajeForm.style.color = "red";
@@ -767,12 +1153,67 @@ mensajeForm.innerText = "Hubo un error al enviar el mensaje.";
 
 }catch(error){
 mensajeForm.style.color = "red";
-mensajeForm.innerText = "Error de conexión. Intenta nuevamente.";
+mensajeForm.innerText = "Error de conexión.";
 }
-
 });
 
+/* ========================= */
+/* 🖼 VISOR DE IMAGEN */
+/* ========================= */
+
+const imagenes = document.querySelectorAll(".card img");
+const viewer = document.getElementById("imageViewer");
+const imagenGrande = document.getElementById("imagenAmpliada");
+
+imagenes.forEach(img => {
+img.addEventListener("click", function(){
+imagenGrande.src = this.src;
+viewer.style.display = "flex";
+});
+});
+
+function cerrarImagen(){
+viewer.style.display = "none";
+imagenGrande.src = "";
+}
+
+viewer.addEventListener("click", function(e){
+if(e.target === viewer){
+cerrarImagen();
+}
+});
+
+function toggleDescripcion(boton){
+
+const descripcion = boton.nextElementSibling;
+
+if(descripcion.classList.contains("activa")){
+descripcion.classList.remove("activa");
+boton.innerText = "VER DESCRIPCIÓN";
+}else{
+descripcion.classList.add("activa");
+boton.innerText = "OCULTAR DESCRIPCIÓN";
+}
+
+}
+
 </script>
+
+<div id="cartModal" class="cart-modal">
+<h2>Tu Carrito</h2>
+
+<div id="cartItems"></div>
+
+<div class="cart-total">
+Total: $<span id="cartTotal">0</span>
+</div>
+
+<div class="cart-buttons">
+<button class="btn" onclick="finalizarCompra()">Finalizar Compra</button>
+<button class="btn" onclick="vaciarCarrito()">Vaciar Carrito</button>
+<button onclick="cerrarCarrito()" style="background:none;border:none;color:gray;">Cerrar</button>
+</div>
+</div>
 
 </body>
 </html>
