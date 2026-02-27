@@ -670,6 +670,201 @@ padding:60px 20px; /* espacio vertical uniforme */
 margin:0;
 }
 
+@media (max-width:768px){
+
+.product-grid{
+grid-template-columns: 1fr;
+gap:20px;
+}
+
+}
+
+@media (max-width:768px){
+
+.hero{
+padding:50px 20px;
+text-align:center;
+}
+
+.hero h2{
+font-size:22px;
+}
+
+.hero p{
+font-size:14px;
+}
+
+}
+
+@media (max-width:768px){
+
+.card img{
+height:200px;
+object-fit:cover;
+}
+
+.description{
+font-size:14px;
+}
+
+.toggle-desc{
+font-size:13px;
+padding:6px;
+}
+
+}
+
+@media (max-width:768px){
+
+.btn{
+padding:12px;
+font-size:15px;
+}
+
+.toggle-desc{
+width:100%;
+}
+
+}
+
+@media (max-width:768px){
+
+.cart-modal{
+width:95%;
+margin:20px auto;
+}
+
+}
+
+@media (max-width:768px){
+
+section{
+padding:40px 15px;
+}
+
+}
+
+@media (max-width:768px){
+
+header{
+flex-direction:column;
+gap:10px;
+}
+
+nav{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+}
+
+@media (max-width:768px){
+
+header{
+flex-direction:row;          /* Mantener en fila */
+justify-content:space-between;
+align-items:center;
+}
+
+nav{
+display:flex;
+flex-direction:row;
+flex-wrap:nowrap;            /* NO permitir salto de línea */
+gap:15px;
+font-size:13px;              /* Reducimos un poco el tamaño */
+}
+
+.cart-icon{
+margin-left:10px;
+}
+
+}
+
+@media (max-width:480px){
+
+nav{
+gap:10px;
+font-size:12px;
+}
+
+}
+
+@media (max-width:768px){
+
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+nav{
+display:flex;
+flex-wrap:nowrap;
+overflow-x:auto;      /* Permite deslizar */
+white-space:nowrap;   /* No dividir texto */
+gap:15px;
+scrollbar-width:none; /* Firefox */
+}
+
+nav::-webkit-scrollbar{
+display:none;         /* Chrome */
+}
+
+nav a{
+flex:0 0 auto;
+font-size:13px;
+}
+
+.cart-icon{
+flex:0 0 auto;
+margin-left:10px;
+}
+
+}
+
+@media (max-width:768px){
+
+header{
+display:flex;
+flex-direction:column;   /* Apila en vertical */
+align-items:center;
+gap:10px;
+padding:15px 10px;
+}
+
+/* Título arriba */
+.logo{
+width:100%;
+text-align:center;
+}
+
+/* Nav + carrito en segunda línea */
+.nav-container{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+width:100%;
+flex-wrap:nowrap;
+}
+
+/* Nav en una sola línea */
+nav{
+display:flex;
+gap:15px;
+white-space:nowrap;
+}
+
+nav a{
+font-size:14px;
+}
+
+.cart-icon{
+margin-left:10px;
+}
+
+}
+
 </style>
 </head>
 
